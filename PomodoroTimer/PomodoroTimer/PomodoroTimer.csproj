@@ -7,7 +7,7 @@
     <ProjectGuid>{0C7B07B6-A8EC-4F1C-BDE2-96D4F23D7A38}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>PomodoroTimer</RootNamespace>
-    <AssemblyName>PomodoroTimer</AssemblyName>
+    <AssemblyName>Pomodoro Timer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
