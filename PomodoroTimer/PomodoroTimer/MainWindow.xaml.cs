@@ -62,7 +62,7 @@ namespace PomodoroTimer
             InitializeComponent();
             this.Background = workingGradient;
             time = pomodoroDuration;
-            countdownTimer.Content = FormatTimer(time);
+            CountdownTimer.Content = FormatTimer(time);
 
             workingSoundsOGG = new MP3Player(workingSounds, "workingSounds");
             alarmSoundsOGG = new MP3Player(alarmSounds, "alarmSounds");
@@ -79,7 +79,7 @@ namespace PomodoroTimer
             if (time > 0)
             {
                 time--;
-                countdownTimer.Content = FormatTimer(time);
+                CountdownTimer.Content = FormatTimer(time);
             }
             else
             {
@@ -169,7 +169,7 @@ namespace PomodoroTimer
 
                 pomodoroCount = 0;
                 Timer.Stop();
-                countdownTimer.Content = FormatTimer(pomodoroDuration);
+                CountdownTimer.Content = FormatTimer(pomodoroDuration);
 
                 startStopBool = startStopRestartEnum.start;
                 StartPauseButton.Background = new ImageBrush(new BitmapImage(new Uri(BaseUriHelper.GetBaseUri(this), "Assets/Buttons/timer-start-big.png")));
@@ -182,7 +182,7 @@ namespace PomodoroTimer
             alarmSoundsOGG.Stop("alarmSounds");
             workingSoundsOGG.Stop("workingSounds");
             Timer.Stop();
-            countdownTimer.Content = FormatTimer(pomodoroDuration);
+            CountdownTimer.Content = FormatTimer(pomodoroDuration);
 
             startStopBool = startStopRestartEnum.start;
             StartPauseButton.Background = new ImageBrush(new BitmapImage(new Uri(BaseUriHelper.GetBaseUri(this), "Assets/Buttons/timer-start-big.png")));

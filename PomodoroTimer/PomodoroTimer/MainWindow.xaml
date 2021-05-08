@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PomodoroTimer"
         mc:Ignorable="d"
-        Title="Pomodoro Timer" Height="450" Width="800" MinWidth="800" MinHeight="450">
+        ResizeMode="NoResize"
+        Topmost="True"
+        Title="Pomodoro Timer" Height="120" Width="400" MinWidth="400" MinHeight="120">
 
     <Window.Resources>
         <Style x:Key="MyButtonStyle" TargetType="Button">
@@ -29,13 +30,19 @@
     </Window.Resources>
     
     <Grid>
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
             <RowDefinition Height="8*"></RowDefinition>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         
-        <Label x:Name="countdownTimer" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bavro" FontSize="100" Grid.Row="1" Foreground="White"/>
+        <Label x:Name="CountdownTimer" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bravo" FontSize="40" Grid.Column="1" Foreground="White"/>
         <Button Style="{StaticResource MyButtonStyle}" x:Name="SettingsButton" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Center" Width="45" Click="SettingsButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="45" Margin="15,16,0,16">
             <Button.Background>
                 <ImageBrush ImageSource="Assets/Buttons/setting-general.png" Stretch="UniformToFill">
@@ -50,7 +57,7 @@
                 </ImageBrush>
             </Button.Background>
         </Button>
-        <WrapPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <WrapPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Style="{StaticResource MyButtonStyle}" x:Name="StartPauseButton" Content="Play" Width="60" Height="60" Click="StartPauseButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="Assets/Buttons/timer-start-big.png" Stretch="UniformToFill"/>
@@ -62,7 +69,7 @@
                 </Button.Background>
             </Button>
         </WrapPanel>
-        <Button Style="{StaticResource MyButtonStyle}" x:Name="DoneBreakButton" Content="Done Break" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Click="DoneBreakButton_Click" Grid.Row="2" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="60" Visibility="Collapsed">
+        <Button Style="{StaticResource MyButtonStyle}" x:Name="DoneBreakButton" Content="Done Break" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Click="DoneBreakButton_Click" Grid.Column="2" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="60" Visibility="Collapsed">
             <Button.Background>
                 <ImageBrush ImageSource="Assets/Buttons/timer-complete-big.png" Stretch="UniformToFill"/>
             </Button.Background>
