@@ -75,14 +75,14 @@ namespace PomodoroTimer
 
             Properties.Settings.Default.Save();
 
-            MainWindow.pomodoroDuration = Properties.Settings.Default.pomodoroDuration * 60;
-            MainWindow.pomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60;
-            MainWindow.pomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60;
-            MainWindow.pomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance;
-            MainWindow.workingSounds = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" + Properties.Settings.Default.workingSounds + ".mp3";
-            MainWindow.alarmSounds = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
-            MainWindow.workingSoundsOGG = new MP3Player(MainWindow.workingSounds, "workingSounds");
-            MainWindow.alarmSoundsOGG = new MP3Player(MainWindow.alarmSounds, "alarmSounds");
+            MainWindow.PomodoroDuration = Properties.Settings.Default.pomodoroDuration * 60;
+            MainWindow.PomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60;
+            MainWindow.PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60;
+            MainWindow.PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance;
+            MainWindow.WorkingSounds = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" + Properties.Settings.Default.workingSounds + ".mp3";
+            MainWindow.AlarmSounds = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
+            MainWindow.WorkingSoundsOgg = new MP3Player(MainWindow.WorkingSounds, "workingSounds");
+            MainWindow.AlarmSoundsOgg = new MP3Player(MainWindow.AlarmSounds, "alarmSounds");
             this.Close();
         }
 
