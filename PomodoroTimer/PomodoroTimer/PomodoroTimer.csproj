@@ -148,7 +148,9 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="FodyWeavers.xml.xml" />
+    <Resource Include="FodyWeavers.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Buttons\timer-complete-big.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

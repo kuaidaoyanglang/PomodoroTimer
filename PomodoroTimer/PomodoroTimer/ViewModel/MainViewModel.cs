@@ -32,9 +32,11 @@ namespace PomodoroTimer.ViewModel
         public MP3Player AlarmSoundsOgg;
         public MP3Player WorkingSoundsOgg;
         public int PomodoroCount;
-        public PomoStateEnum CurrentPomoStateEnum { get; set; } 
-        public int Time;
-        public readonly DispatcherTimer Timer;
+        public PomoStateEnum CurrentPomoStateEnum { get; set; }
+
+        [AlsoNotifyFor(nameof(CountdownTimer))]
+        public int Time { get; set; }
+        public DispatcherTimer Timer;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,7 +60,10 @@ namespace PomodoroTimer.ViewModel
 
         public LinearGradientBrush CurrentLinearGradientBrush { get; set; }
 
+        [DependsOn(nameof(Time))]
         public string CountdownTimer => FormatTimer();
+
+        public bool IsChanged { get; set; }
 
         public MainViewModel()
         {

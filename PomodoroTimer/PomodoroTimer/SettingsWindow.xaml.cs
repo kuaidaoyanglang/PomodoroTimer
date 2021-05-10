@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using PomodoroTimer.ViewModel;
 
 namespace PomodoroTimer
 {
@@ -10,11 +11,13 @@ namespace PomodoroTimer
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        public SettingsWindow()
+        private MainViewModel _viewModel;
+        public SettingsWindow(MainViewModel viewModel)
         {
+
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-
+            _viewModel = viewModel;
             for (int i = 1; i <= 480; i++)
             {
                 pomodoroDurationCombobox.Items.Add(i.ToString());
@@ -66,14 +69,14 @@ namespace PomodoroTimer
 
             Properties.Settings.Default.Save();
 
-            MainWindow.PomodoroDuration = Properties.Settings.Default.pomodoroDuration * 60;
-            MainWindow.PomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60;
-            MainWindow.PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60;
-            MainWindow.PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance;
-            MainWindow.WorkingSounds = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" + Properties.Settings.Default.workingSounds + ".mp3";
-            MainWindow.AlarmSounds = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
-            MainWindow.WorkingSoundsOgg = new MP3Player(MainWindow.WorkingSounds, "workingSounds");
-            MainWindow.AlarmSoundsOgg = new MP3Player(MainWindow.AlarmSounds, "alarmSounds");
+            _viewModel.PomodoroDuration = Properties.Settings.Default.pomodoroDuration * 60;
+            _viewModel.PomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60;
+            _viewModel.PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60;
+            _viewModel.PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance;
+            _viewModel.WorkingSounds = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" + Properties.Settings.Default.workingSounds + ".mp3";
+            _viewModel.AlarmSounds = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
+            _viewModel.WorkingSoundsOgg = new MP3Player(_viewModel.WorkingSounds, "workingSounds");
+            _viewModel.AlarmSoundsOgg = new MP3Player(_viewModel.AlarmSounds, "alarmSounds");
             this.Close();
         }
 

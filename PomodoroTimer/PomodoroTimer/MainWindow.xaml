@@ -7,6 +7,7 @@
         ResizeMode="NoResize"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
+        Background="{Binding CurrentLinearGradientBrush}"
         Title="Pomodoro Timer" Height="120" Width="400" MinWidth="400" MinHeight="120">
 
     <Window.Resources>
@@ -37,8 +38,8 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <Label x:Name="CountdownTimer" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bravo" FontSize="40" Grid.Column="1" Foreground="White"/>
+
+        <Label x:Name="CountdownTimer" Content="{Binding CountdownTimer}" HorizontalAlignment="Center"  VerticalAlignment="Center" FontFamily="Bravo" FontSize="40" Grid.Column="1" Foreground="White"/>
         <Button Style="{StaticResource MyButtonStyle}" x:Name="SettingsButton" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Center" Width="45" Click="SettingsButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="45" Margin="15,16,0,16">
             <Button.Background>
                 <ImageBrush ImageSource="Assets/Buttons/setting-general.png" Stretch="UniformToFill">
