@@ -62,7 +62,7 @@
                     <ImageBrush ImageSource="Assets/Buttons/timer-start-big.png" Stretch="UniformToFill"/>
                 </Button.Background>
             </Button>
-            <Button Style="{StaticResource MyButtonStyle}" x:Name="PauseButton" Content="Play" Width="60" Height="60" Click="PauseButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
+            <Button Style="{StaticResource MyButtonStyle}" x:Name="PauseButton" Visibility="{Binding !ShowStartButton,Converter={StaticResource booleanToVisibilityConverter}}" Content="Play" Width="60" Height="60" Click="PauseButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="Assets/Buttons/timer-pause-big.png" Stretch="UniformToFill"/>
                 </Button.Background>
