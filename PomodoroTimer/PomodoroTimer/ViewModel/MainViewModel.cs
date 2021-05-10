@@ -1,12 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using PropertyChanged;
 
 namespace PomodoroTimer.ViewModel
 {
-    []
-    public class MainViewModel
+    public class MainViewModel: INotifyPropertyChanged
     {
         public readonly LinearGradientBrush WorkingGradient = new LinearGradientBrush(
             Color.FromArgb(255, 255, 100, 55),
@@ -31,41 +32,39 @@ namespace PomodoroTimer.ViewModel
         public MP3Player AlarmSoundsOgg;
         public MP3Player WorkingSoundsOgg;
         public int PomodoroCount;
-        public PomoStateEnum StartStopBool = PomoStateEnum.Init;
+        public PomoStateEnum CurrentPomoStateEnum { get; set; } 
         public int Time;
-        public readonly DispatcherTimer Timer = new DispatcherTimer();
+        public readonly DispatcherTimer Timer;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(PropertyChangedEventArgs eventArgs)
+        {
+            PropertyChanged?.Invoke(this, eventArgs);
+        }
+
         public void TimerTick(object sender, EventArgs e)
         {
             if (Time > 0)
             {
                 Time--;
+                return;
             }
-            else
-            {
-                WorkingSoundsOgg.Stop("workingSounds");
-                AlarmSoundsOgg.Play("alarmSounds");
-
-                PomodoroCount++;
-                Timer.Stop();
-                //_startStopBool = startStopRestartEnum.restart;
-                //RestartButton.Visibility = Visibility.Collapsed;
-            }
+            WorkingSoundsOgg.Stop("workingSounds");
+            AlarmSoundsOgg.Play("alarmSounds");
+            PomodoroCount++;
+            Timer.Stop();
         }
 
         public LinearGradientBrush CurrentLinearGradientBrush { get; set; }
 
-        public string CountdownTimer
-        {
-            get
-            {
-                return FormatTimer();
-            }
-        }
+        public string CountdownTimer => FormatTimer();
 
         public MainViewModel()
         {
             this.CurrentLinearGradientBrush = WorkingGradient;
             Time = PomodoroDuration;
+            CurrentPomoStateEnum = PomoStateEnum.Init;
 
             WorkingSoundsOgg = new MP3Player(WorkingSounds, "workingSounds");
             AlarmSoundsOgg = new MP3Player(AlarmSounds, "alarmSounds");
