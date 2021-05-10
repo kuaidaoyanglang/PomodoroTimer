@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local1="clr-namespace:PomodoroTimer.Converters"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Topmost="True"
@@ -11,6 +12,7 @@
         Title="Pomodoro Timer" Height="120" Width="400" MinWidth="400" MinHeight="120">
 
     <Window.Resources>
+        <local1:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"></local1:BooleanToVisibilityConverter>
         <Style x:Key="MyButtonStyle" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Margin" Value="5"/>
@@ -55,9 +57,14 @@
             </Button.Background>
         </Button>
         <WrapPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Style="{StaticResource MyButtonStyle}" x:Name="StartPauseButton" Content="Play" Width="60" Height="60" Click="StartPauseButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
+            <Button Style="{StaticResource MyButtonStyle}" x:Name="StartButton" Visibility="{Binding ShowStartButton,Converter={StaticResource booleanToVisibilityConverter}}" Content="Play" Width="60" Height="60" Click="StartButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="Assets/Buttons/timer-start-big.png" Stretch="UniformToFill"/>
+                </Button.Background>
+            </Button>
+            <Button Style="{StaticResource MyButtonStyle}" x:Name="PauseButton" Content="Play" Width="60" Height="60" Click="PauseButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="Assets/Buttons/timer-pause-big.png" Stretch="UniformToFill"/>
                 </Button.Background>
             </Button>
             <Button Style="{StaticResource MyButtonStyle}" x:Name="RestartButton" Content="Restart" Width="60" Height="60" Click="RestartButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Visibility="Collapsed" >

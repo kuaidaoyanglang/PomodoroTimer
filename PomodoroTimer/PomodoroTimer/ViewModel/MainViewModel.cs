@@ -26,8 +26,11 @@ namespace PomodoroTimer.ViewModel
         public int PomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60; //5 * 60; 480 max
         public int PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60; //15 * 60; 480 max
         public int PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance; // 100 max
-        public string WorkingSounds = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" + Properties.Settings.Default.workingSounds + ".mp3";
-        public string AlarmSounds = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
+        public string WorkingSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" +
+                                                   Properties.Settings.Default.workingSounds + ".mp3";
+        
+
+        public string AlarmSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
 
         public MP3Player AlarmSoundsOgg;
         public MP3Player WorkingSoundsOgg;
@@ -52,6 +55,17 @@ namespace PomodoroTimer.ViewModel
                 Time--;
                 return;
             }
+
+            if (CurrentPomoStateEnum == PomoStateEnum.Working)
+            {
+                PomodoroCount++;
+                CurrentPomoStateEnum = PomoStateEnum.WorkDone;
+            }
+            else
+            {
+                CurrentPomoStateEnum = PomoStateEnum.RestDone;
+            }
+
             WorkingSoundsOgg.Stop("workingSounds");
             AlarmSoundsOgg.Play("alarmSounds");
             PomodoroCount++;
@@ -79,6 +93,32 @@ namespace PomodoroTimer.ViewModel
             Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(0, 0, 1);
             Timer.Tick += TimerTick;
+        }
+
+        public bool ShowStartButton { get; set; }
+
+        public bool ShowRestartButton { get; set; }
+
+        public bool ShowDoneBreakButton { get; set; }
+
+        public void OnStartPauseClick(object sender, RoutedEventArgs e)
+        {
+            Timer.Start();
+        }
+
+        private void OnPauseButtonClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void OnRestartButtonClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void OnDoneBreakButtonClick(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private string FormatTimer()

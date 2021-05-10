@@ -21,9 +21,14 @@ namespace PomodoroTimer
             this.DataContext = MainViewModel;
         }
 
-        private void StartPauseButton_Click(object sender, RoutedEventArgs e)
+        private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void RestartButton_Click(object sender, RoutedEventArgs e)
