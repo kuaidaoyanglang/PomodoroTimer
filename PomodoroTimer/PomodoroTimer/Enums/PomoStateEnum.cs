@@ -14,6 +14,7 @@ namespace PomodoroTimer
         Init,
         Working,
         WorkDone,
+        Pause,
         ShortResting,
         LongResting,
         RestDone

@@ -9,7 +9,7 @@
         Topmost="True"
         WindowStartupLocation="CenterScreen"
         Background="{Binding CurrentLinearGradientBrush}"
-        Title="Pomodoro Timer" Height="120" Width="400" MinWidth="400" MinHeight="120">
+        Title="Pomodoro Timer" Height="120" Width="420" MinWidth="420" MinHeight="120">
 
     <Window.Resources>
         <local1:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"></local1:BooleanToVisibilityConverter>
@@ -57,26 +57,26 @@
             </Button.Background>
         </Button>
         <WrapPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Style="{StaticResource MyButtonStyle}" x:Name="StartButton" Visibility="{Binding ShowStartButton,Converter={StaticResource booleanToVisibilityConverter}}" Content="Play" Width="60" Height="60" Click="StartButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
+            <Button Style="{StaticResource MyButtonStyle}" x:Name="StartButton" Visibility="{Binding ShowStartButton,Converter={StaticResource booleanToVisibilityConverter}}" Content="Start" Width="60" Height="60" Click="StartButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="Assets/Buttons/timer-start-big.png" Stretch="UniformToFill"/>
                 </Button.Background>
             </Button>
-            <Button Style="{StaticResource MyButtonStyle}" x:Name="PauseButton" Visibility="{Binding !ShowStartButton,Converter={StaticResource booleanToVisibilityConverter}}" Content="Play" Width="60" Height="60" Click="PauseButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
+            <Button Style="{StaticResource MyButtonStyle}" x:Name="PauseButton" Visibility="{Binding ShowPauseButton,Converter={StaticResource booleanToVisibilityConverter}}" Content="Play" Width="60" Height="60" Click="PauseButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="Assets/Buttons/timer-pause-big.png" Stretch="UniformToFill"/>
                 </Button.Background>
             </Button>
-            <Button Style="{StaticResource MyButtonStyle}" x:Name="RestartButton" Content="Restart" Width="60" Height="60" Click="RestartButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Visibility="Collapsed" >
+            <Button Style="{StaticResource MyButtonStyle}" x:Name="RestartButton" Visibility="{Binding ShowRestartButton,Converter={StaticResource booleanToVisibilityConverter}}" Content="Restart" Width="60" Height="60" Click="RestartButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center"  BorderBrush="{x:Null}" Foreground="{x:Null}" >
                 <Button.Background>
                     <ImageBrush ImageSource="Assets/Buttons/timer-stop-big.png" Stretch="UniformToFill"/>
                 </Button.Background>
             </Button>
+            <Button Style="{StaticResource MyButtonStyle}" x:Name="DoneButton" Visibility="{Binding ShowDoneButton,Converter={StaticResource booleanToVisibilityConverter}}" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Click="DoneButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="60">
+                <Button.Background>
+                    <ImageBrush ImageSource="Assets/Buttons/timer-complete-big.png" Stretch="UniformToFill"/>
+                </Button.Background>
+            </Button>
         </WrapPanel>
-        <Button Style="{StaticResource MyButtonStyle}" x:Name="DoneBreakButton" Content="Done Break" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Click="DoneBreakButton_Click" Grid.Column="2" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="60" Visibility="Collapsed">
-            <Button.Background>
-                <ImageBrush ImageSource="Assets/Buttons/timer-complete-big.png" Stretch="UniformToFill"/>
-            </Button.Background>
-        </Button>
     </Grid>
 </Window>

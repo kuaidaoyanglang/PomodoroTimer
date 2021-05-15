@@ -36,21 +36,15 @@ namespace PomodoroTimer
             MainViewModel.OnRestartButtonClick(sender, e);
         }
 
-        private void DoneBreakButton_Click(object sender, RoutedEventArgs e)
+        private void DoneButton_Click(object sender, RoutedEventArgs e)
         {
-            MainViewModel.OnDoneBreakButtonClick(sender, e);
+            MainViewModel.OnDoneButtonClick(sender, e);
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             Window settingsWindow = new SettingsWindow(this.MainViewModel);
             settingsWindow.ShowDialog();
-        }
-
-        private string FormatTimer(int time)
-        {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(time);
-            return timeSpan.ToString(@"hh\:mm\:ss");
         }
     }
 }

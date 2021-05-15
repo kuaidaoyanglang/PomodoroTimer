@@ -22,13 +22,12 @@ namespace PomodoroTimer.ViewModel
             new Point(0.74, 0.73));
 
         //Saved user settings
-        public int PomodoroDuration = Properties.Settings.Default.pomodoroDuration * 60; //25 * 60; 480 max 
-        public int PomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60; //5 * 60; 480 max
-        public int PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60; //15 * 60; 480 max
+        public int PomodoroDuration = Properties.Settings.Default.pomodoroDuration ;//* 60; //25 * 60; 480 max 
+        public int PomodoroBreak = Properties.Settings.Default.pomodoroBreak ;//* 60; //5 * 60; 480 max
+        public int PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak ;//* 60; //15 * 60; 480 max
         public int PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance; // 100 max
         public string WorkingSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" +
                                                    Properties.Settings.Default.workingSounds + ".mp3";
-        
 
         public string AlarmSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
 
@@ -55,13 +54,20 @@ namespace PomodoroTimer.ViewModel
                 Time--;
                 return;
             }
+
             Timer.Stop();
+            ShowStartButton = false;
+            ShowPauseButton = false;
+            ShowRestartButton = false;
+            ShowDoneButton = true;
             if (CurrentPomoStateEnum == PomoStateEnum.Working)
             {
                 PomodoroCount++;
                 WorkingSoundsOgg.Stop("workingSounds");
                 AlarmSoundsOgg.Play("alarmSounds");
+                
                 CurrentPomoStateEnum = PomoStateEnum.WorkDone;
+                
             }
             else
             {
@@ -73,8 +79,6 @@ namespace PomodoroTimer.ViewModel
 
         [DependsOn(nameof(Time))]
         public string CountdownTimer => FormatTimer();
-
-        public bool IsChanged { get; set; }
 
         public MainViewModel()
         {
@@ -94,30 +98,77 @@ namespace PomodoroTimer.ViewModel
 
         public bool ShowStartButton { get; set; } = true;
 
-        public bool ShowPauseButton { get; set; } = false;
+        public bool ShowPauseButton { get; set; } 
 
-        public bool ShowRestartButton { get; set; } = false;
+        public bool ShowRestartButton { get; set; } 
 
-        public bool ShowDoneBreakButton { get; set; } = false;
+        public bool ShowDoneButton { get; set; } 
 
         public void OnStartButtonClick(object sender, RoutedEventArgs e)
         {
+            //
+            if (CurrentPomoStateEnum == PomoStateEnum.Init)
+            {
+                Time = PomodoroDuration;
+            }
+
+            ShowStartButton = false;
+            ShowPauseButton = true;
+            ShowRestartButton = true;
+            ShowDoneButton = false;
+
+            CurrentPomoStateEnum = PomoStateEnum.Working;
             Timer.Start();
         }
 
         public void OnPauseButtonClick(object sender, RoutedEventArgs e)
         {
+            ShowStartButton = true;
+            ShowPauseButton = false;
+            ShowRestartButton = true;
+            ShowDoneButton = false;
+            CurrentPomoStateEnum = PomoStateEnum.Pause;
             Timer.Stop();
         }
 
         public void OnRestartButtonClick(object sender, RoutedEventArgs e)
         {
+            ShowStartButton = true;
+            ShowPauseButton = false;
+            ShowRestartButton = false;
+            ShowDoneButton = false;
+
+            Time = PomodoroDuration;
+            CurrentPomoStateEnum = PomoStateEnum.Init;
+            CurrentLinearGradientBrush = WorkingGradient;
             Timer.Stop();
         }
 
-        public void OnDoneBreakButtonClick(object sender, RoutedEventArgs e)
+        public void OnDoneButtonClick(object sender, RoutedEventArgs e)
         {
-            Timer.Stop();
+            ShowPauseButton = false;
+            ShowDoneButton = false;
+
+            if (CurrentPomoStateEnum == PomoStateEnum.WorkDone)
+            {
+                CurrentLinearGradientBrush = BreakGradient;
+                Time = PomodoroBreak;
+                CurrentPomoStateEnum = PomoStateEnum.ShortResting;
+                if (PomodoroCount % PomodoroLongBreakOccurance == 0)
+                {
+                    Time = PomodoroLongBreak;
+                    CurrentPomoStateEnum = PomoStateEnum.LongResting;
+                }
+                ShowStartButton = false;
+                ShowRestartButton = true;
+                Timer.Start();
+                return;
+            }
+
+            ShowStartButton = true;
+            ShowRestartButton = false;
+            Time = PomodoroDuration;
+            CurrentLinearGradientBrush = WorkingGradient;
         }
 
         private string FormatTimer()
