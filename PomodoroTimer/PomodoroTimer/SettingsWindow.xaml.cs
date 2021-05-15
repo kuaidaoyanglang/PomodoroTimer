@@ -16,7 +16,6 @@ namespace PomodoroTimer
         {
 
             InitializeComponent();
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             _viewModel = viewModel;
             for (int i = 1; i <= 480; i++)
             {
