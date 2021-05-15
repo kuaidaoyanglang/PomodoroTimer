@@ -117,6 +117,7 @@ namespace PomodoroTimer.ViewModel
             ShowRestartButton = true;
             ShowDoneButton = false;
 
+            WorkingSoundsOgg.Play("workingSounds");
             CurrentPomoStateEnum = PomoStateEnum.Working;
             Timer.Start();
         }
@@ -127,6 +128,7 @@ namespace PomodoroTimer.ViewModel
             ShowPauseButton = false;
             ShowRestartButton = true;
             ShowDoneButton = false;
+            WorkingSoundsOgg.Stop("workingSounds");
             CurrentPomoStateEnum = PomoStateEnum.Pause;
             Timer.Stop();
         }
@@ -141,6 +143,7 @@ namespace PomodoroTimer.ViewModel
             Time = PomodoroDuration;
             CurrentPomoStateEnum = PomoStateEnum.Init;
             CurrentLinearGradientBrush = WorkingGradient;
+            WorkingSoundsOgg.Stop("workingSounds");
             Timer.Stop();
         }
 
