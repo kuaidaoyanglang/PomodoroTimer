@@ -73,7 +73,7 @@ namespace PomodoroTimer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Mute")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Ticking")]
         public string workingSounds {
             get {
                 return ((string)(this["workingSounds"]));
@@ -85,7 +85,7 @@ namespace PomodoroTimer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("NoneAlarm")]
+        [global::System.Configuration.DefaultSettingValueAttribute("SchoolBell")]
         public string alarmSounds {
             get {
                 return ((string)(this["alarmSounds"]));

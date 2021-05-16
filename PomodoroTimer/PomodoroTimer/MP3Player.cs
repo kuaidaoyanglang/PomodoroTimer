@@ -23,7 +23,7 @@ namespace PomodoroTimer
         public void Play(string alias)
         {
             string format = @"play ""{0}""";
-            if (repeat == true)
+            if (repeat)
             {
                 format += " REPEAT";
             }

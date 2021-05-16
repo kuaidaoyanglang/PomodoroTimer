@@ -15,10 +15,10 @@
       <Value Profile="(Default)">4</Value>
     </Setting>
     <Setting Name="workingSounds" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Mute</Value>
+      <Value Profile="(Default)">Ticking</Value>
     </Setting>
     <Setting Name="alarmSounds" Type="System.String" Scope="User">
-      <Value Profile="(Default)">NoneAlarm</Value>
+      <Value Profile="(Default)">SchoolBell</Value>
     </Setting>
   </Settings>
 </SettingsFile>

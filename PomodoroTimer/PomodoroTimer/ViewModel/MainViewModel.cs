@@ -22,17 +22,18 @@ namespace PomodoroTimer.ViewModel
             new Point(0.74, 0.73));
 
         //Saved user settings
-        public int PomodoroDuration = Properties.Settings.Default.pomodoroDuration ;//* 60; //25 * 60; 480 max 
-        public int PomodoroBreak = Properties.Settings.Default.pomodoroBreak ;//* 60; //5 * 60; 480 max
-        public int PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak ;//* 60; //15 * 60; 480 max
+        public int PomodoroDuration = Properties.Settings.Default.pomodoroDuration * 60; //25 * 60; 480 max 
+        public int PomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60; //5 * 60; 480 max
+        public int PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60; //15 * 60; 480 max
         public int PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance; // 100 max
         public string WorkingSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" +
                                                    Properties.Settings.Default.workingSounds + ".mp3";
 
-        public string AlarmSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
+        public string AlarmSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + 
+                                                  Properties.Settings.Default.alarmSounds + ".mp3";
 
-        public MP3Player AlarmSoundsOgg;
-        public MP3Player WorkingSoundsOgg;
+        public MediaPlayer AlarmSoundsOgg;
+        public MediaPlayer WorkingSoundsOgg;
         public int PomodoroCount;
         public PomoStateEnum CurrentPomoStateEnum { get; set; }
 
@@ -63,19 +64,22 @@ namespace PomodoroTimer.ViewModel
             if (CurrentPomoStateEnum == PomoStateEnum.Working)
             {
                 PomodoroCount++;
-                WorkingSoundsOgg.Stop("workingSounds");
-                AlarmSoundsOgg.Play("alarmSounds");
+                WorkingSoundsOgg.Pause();
+                AlarmSoundsOgg.Play();
                 
                 CurrentPomoStateEnum = PomoStateEnum.WorkDone;
                 
             }
             else
             {
+                AlarmSoundsOgg.Play();
                 CurrentPomoStateEnum = PomoStateEnum.RestDone;
             }
         }
 
         public LinearGradientBrush CurrentLinearGradientBrush { get; set; }
+
+        public string CurrentBackgroundSounds { get; set; }
 
         [DependsOn(nameof(Time))]
         public string CountdownTimer => FormatTimer();
@@ -85,12 +89,24 @@ namespace PomodoroTimer.ViewModel
             this.CurrentLinearGradientBrush = WorkingGradient;
             Time = PomodoroDuration;
             CurrentPomoStateEnum = PomoStateEnum.Init;
+            CurrentBackgroundSounds = WorkingSounds;
 
-            WorkingSoundsOgg = new MP3Player(WorkingSounds, "workingSounds");
-            AlarmSoundsOgg = new MP3Player(AlarmSounds, "alarmSounds");
-            WorkingSoundsOgg.Volume("workingSounds", 1000);
-            AlarmSoundsOgg.Volume("alarmSounds", 1000);
+            //WorkingSoundsOgg = new MP3Player(WorkingSounds, "workingSounds");
+            //AlarmSoundsOgg = new MP3Player(AlarmSounds, "alarmSounds");
+            //WorkingSoundsOgg.Volume("workingSounds", 1000);
+            //AlarmSoundsOgg.Volume("alarmSounds", 1000);
+            WorkingSoundsOgg = new MediaPlayer();
+            WorkingSoundsOgg.Open(new Uri(WorkingSounds, UriKind.RelativeOrAbsolute));
+            WorkingSoundsOgg.Volume = 1000;
+            WorkingSoundsOgg.MediaEnded += (sender, e) =>
+            {
+                //播放结束后 又重新播放
+                WorkingSoundsOgg.Position = TimeSpan.Zero;
+            };
 
+            AlarmSoundsOgg = new MediaPlayer();
+            AlarmSoundsOgg.Open(new Uri(AlarmSounds, UriKind.RelativeOrAbsolute));
+            AlarmSoundsOgg.Volume = 1000;
             Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(0, 0, 1);
             Timer.Tick += TimerTick;
@@ -117,7 +133,7 @@ namespace PomodoroTimer.ViewModel
             ShowRestartButton = true;
             ShowDoneButton = false;
 
-            WorkingSoundsOgg.Play("workingSounds");
+            WorkingSoundsOgg.Play();
             CurrentPomoStateEnum = PomoStateEnum.Working;
             Timer.Start();
         }
@@ -128,7 +144,7 @@ namespace PomodoroTimer.ViewModel
             ShowPauseButton = false;
             ShowRestartButton = true;
             ShowDoneButton = false;
-            WorkingSoundsOgg.Stop("workingSounds");
+            WorkingSoundsOgg.Stop();
             CurrentPomoStateEnum = PomoStateEnum.Pause;
             Timer.Stop();
         }
@@ -143,7 +159,7 @@ namespace PomodoroTimer.ViewModel
             Time = PomodoroDuration;
             CurrentPomoStateEnum = PomoStateEnum.Init;
             CurrentLinearGradientBrush = WorkingGradient;
-            WorkingSoundsOgg.Stop("workingSounds");
+            WorkingSoundsOgg.Stop();
             Timer.Stop();
         }
 

@@ -74,8 +74,16 @@ namespace PomodoroTimer
             _viewModel.PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance;
             _viewModel.WorkingSounds = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" + Properties.Settings.Default.workingSounds + ".mp3";
             _viewModel.AlarmSounds = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
-            _viewModel.WorkingSoundsOgg = new MP3Player(_viewModel.WorkingSounds, "workingSounds");
-            _viewModel.AlarmSoundsOgg = new MP3Player(_viewModel.AlarmSounds, "alarmSounds");
+            //_viewModel.WorkingSoundsOgg = new MP3Player(_viewModel.WorkingSounds, "workingSounds");
+            _viewModel.WorkingSoundsOgg.Open(new Uri(_viewModel.WorkingSounds));
+
+            if (_viewModel.CurrentPomoStateEnum == PomoStateEnum.Working)
+            {
+                _viewModel.WorkingSoundsOgg.Play();
+            }
+
+            //_viewModel.AlarmSoundsOgg = new MP3Player(_viewModel.AlarmSounds, "alarmSounds");
+            _viewModel.AlarmSoundsOgg.Open(new Uri(_viewModel.WorkingSounds));
             this.Close();
         }
 
