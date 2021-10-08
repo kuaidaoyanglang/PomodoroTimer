@@ -1,10 +1,6 @@
-﻿using System;
+﻿using PomodoroTimer.ViewModel;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Threading;
-using PomodoroTimer.ViewModel;
+using System.Windows.Input;
 
 namespace PomodoroTimer
 {
@@ -17,6 +13,18 @@ namespace PomodoroTimer
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Loaded += (r, s) =>
+            {
+                this.MouseDown += (x, y) =>
+                {
+                    if (y.LeftButton == MouseButtonState.Pressed)
+                    {
+                        this.DragMove();
+                    }
+                };
+            };
+
             MainViewModel = new MainViewModel();
             this.DataContext = MainViewModel;
         }

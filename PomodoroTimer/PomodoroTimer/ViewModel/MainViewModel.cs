@@ -52,10 +52,16 @@ namespace PomodoroTimer.ViewModel
         {
             if (Time > 0)
             {
+                if (CurrentPomoStateEnum == PomoStateEnum.Working)
+                {
+                    Opacity = 0.5;
+                }
+
                 Time--;
                 return;
             }
 
+            Opacity = 1;
             Timer.Stop();
             ShowStartButton = false;
             ShowPauseButton = false;
@@ -90,11 +96,8 @@ namespace PomodoroTimer.ViewModel
             Time = PomodoroDuration;
             CurrentPomoStateEnum = PomoStateEnum.Init;
             CurrentBackgroundSounds = WorkingSounds;
-
-            //WorkingSoundsOgg = new MP3Player(WorkingSounds, "workingSounds");
-            //AlarmSoundsOgg = new MP3Player(AlarmSounds, "alarmSounds");
-            //WorkingSoundsOgg.Volume("workingSounds", 1000);
-            //AlarmSoundsOgg.Volume("alarmSounds", 1000);
+            Opacity = 1;
+            
             WorkingSoundsOgg = new MediaPlayer();
             WorkingSoundsOgg.Open(new Uri(WorkingSounds, UriKind.RelativeOrAbsolute));
             WorkingSoundsOgg.Volume = 1000;
@@ -111,6 +114,8 @@ namespace PomodoroTimer.ViewModel
             Timer.Interval = new TimeSpan(0, 0, 1);
             Timer.Tick += TimerTick;
         }
+
+        public double Opacity { get; set; }
 
         public bool ShowStartButton { get; set; } = true;
 
@@ -140,6 +145,7 @@ namespace PomodoroTimer.ViewModel
 
         public void OnPauseButtonClick(object sender, RoutedEventArgs e)
         {
+            Opacity = 1;
             ShowStartButton = true;
             ShowPauseButton = false;
             ShowRestartButton = true;
@@ -151,6 +157,7 @@ namespace PomodoroTimer.ViewModel
 
         public void OnRestartButtonClick(object sender, RoutedEventArgs e)
         {
+            Opacity = 1;
             ShowStartButton = true;
             ShowPauseButton = false;
             ShowRestartButton = false;
@@ -165,6 +172,7 @@ namespace PomodoroTimer.ViewModel
 
         public void OnDoneButtonClick(object sender, RoutedEventArgs e)
         {
+            Opacity = 1;
             ShowPauseButton = false;
             ShowDoneButton = false;
 
