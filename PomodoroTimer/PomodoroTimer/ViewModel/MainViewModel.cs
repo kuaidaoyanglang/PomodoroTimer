@@ -7,7 +7,7 @@ using PropertyChanged;
 
 namespace PomodoroTimer.ViewModel
 {
-    public class MainViewModel: INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged
     {
         public readonly LinearGradientBrush WorkingGradient = new LinearGradientBrush(
             Color.FromArgb(255, 255, 100, 55),
@@ -26,10 +26,23 @@ namespace PomodoroTimer.ViewModel
         public int PomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60; //5 * 60; 480 max
         public int PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60; //15 * 60; 480 max
         public int PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance; // 100 max
-        public string WorkingSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" +
-                                                   Properties.Settings.Default.workingSounds + ".mp3";
 
-        public string AlarmSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + 
+        public double Volume
+        {
+            get => Properties.Settings.Default.volume;
+
+            set
+            {
+                Properties.Settings.Default.volume = value;
+                WorkingSoundsOgg.Volume = value / 100;
+                AlarmSoundsOgg.Volume = value / 100;
+            }
+        }
+
+        public string WorkingSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" +
+                                                    Properties.Settings.Default.workingSounds + ".mp3";
+
+        public string AlarmSounds { get; set; } = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" +
                                                   Properties.Settings.Default.alarmSounds + ".mp3";
 
         public MediaPlayer AlarmSoundsOgg;
@@ -72,9 +85,9 @@ namespace PomodoroTimer.ViewModel
                 PomodoroCount++;
                 WorkingSoundsOgg.Pause();
                 AlarmSoundsOgg.Play();
-                
+
                 CurrentPomoStateEnum = PomoStateEnum.WorkDone;
-                
+
             }
             else
             {
@@ -92,15 +105,15 @@ namespace PomodoroTimer.ViewModel
 
         public MainViewModel()
         {
-            this.CurrentLinearGradientBrush = WorkingGradient;
+            CurrentLinearGradientBrush = WorkingGradient;
             Time = PomodoroDuration;
             CurrentPomoStateEnum = PomoStateEnum.Init;
             CurrentBackgroundSounds = WorkingSounds;
             Opacity = 1;
-            
+
             WorkingSoundsOgg = new MediaPlayer();
             WorkingSoundsOgg.Open(new Uri(WorkingSounds, UriKind.RelativeOrAbsolute));
-            WorkingSoundsOgg.Volume = 1000;
+            WorkingSoundsOgg.Volume = Volume;
             WorkingSoundsOgg.MediaEnded += (sender, e) =>
             {
                 //播放结束后 又重新播放
@@ -109,9 +122,11 @@ namespace PomodoroTimer.ViewModel
 
             AlarmSoundsOgg = new MediaPlayer();
             AlarmSoundsOgg.Open(new Uri(AlarmSounds, UriKind.RelativeOrAbsolute));
-            AlarmSoundsOgg.Volume = 1000;
-            Timer = new DispatcherTimer();
-            Timer.Interval = new TimeSpan(0, 0, 1);
+            AlarmSoundsOgg.Volume = Volume;
+            Timer = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1)
+            };
             Timer.Tick += TimerTick;
         }
 
@@ -119,11 +134,11 @@ namespace PomodoroTimer.ViewModel
 
         public bool ShowStartButton { get; set; } = true;
 
-        public bool ShowPauseButton { get; set; } 
+        public bool ShowPauseButton { get; set; }
 
-        public bool ShowRestartButton { get; set; } 
+        public bool ShowRestartButton { get; set; }
 
-        public bool ShowDoneButton { get; set; } 
+        public bool ShowDoneButton { get; set; }
 
         public void OnStartButtonClick(object sender, RoutedEventArgs e)
         {

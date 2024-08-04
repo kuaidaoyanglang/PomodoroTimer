@@ -37,7 +37,7 @@
             <Label Content="Adjust Volume" FontFamily="Calibri" FontWeight="Bold" FontSize="14" Foreground="#FF635F5F"></Label>
             <StackPanel Orientation="Horizontal">
                 <!-- Set Orientation to Horizontal -->
-                <Slider x:Name="volumeSlider" Maximum="100" Minimum="0" Value="50" Width="230"/>
+                <Slider x:Name="volumeSlider" Maximum="100" Minimum="0" Value="{Binding ElementName=_viewModel, Path=Volume}" Width="230"/>
                 <TextBlock x:Name="volumeValueText" 
                            Text="{Binding ElementName=volumeSlider, Path=Value, ConverterCulture='en-US', Converter={StaticResource IntegerConverter}}" />
             </StackPanel>
