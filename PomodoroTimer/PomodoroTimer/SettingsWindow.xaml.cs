@@ -11,12 +11,12 @@ namespace PomodoroTimer
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        private readonly MainViewModel _viewModel;
-        public SettingsWindow(MainViewModel viewModel)
+        public MainViewModel MainViewModel;
+        public SettingsWindow(MainViewModel mainViewModel)
         {
 
             InitializeComponent();
-            _viewModel = viewModel;
+            MainViewModel = mainViewModel;
             for (int i = 1; i <= 480; i++)
             {
                 _ = pomodoroDurationCombobox.Items.Add(i.ToString());
@@ -50,13 +50,7 @@ namespace PomodoroTimer
                 checkedValueWorkingSounds.IsChecked = true;
             }
 
-            Volume = _viewModel.Volume;
-        }
-
-        public double Volume
-        {
-            get => _viewModel.Volume;
-            set => _viewModel.Volume = value;
+            volumeSlider.Value = MainViewModel.Volume;
         }
 
         private void applyButton_Click(object sender, RoutedEventArgs e)
@@ -77,33 +71,39 @@ namespace PomodoroTimer
 
             Properties.Settings.Default.Save();
 
-            _viewModel.PomodoroDuration = Properties.Settings.Default.pomodoroDuration * 60;
-            _viewModel.PomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60;
-            _viewModel.PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60;
-            _viewModel.PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance;
-            _viewModel.WorkingSounds = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" + Properties.Settings.Default.workingSounds + ".mp3";
-            _viewModel.AlarmSounds = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
-            _viewModel.Volume = Properties.Settings.Default.volume;
+            MainViewModel.PomodoroDuration = Properties.Settings.Default.pomodoroDuration * 60;
+            MainViewModel.PomodoroBreak = Properties.Settings.Default.pomodoroBreak * 60;
+            MainViewModel.PomodoroLongBreak = Properties.Settings.Default.pomodoroLongBreak * 60;
+            MainViewModel.PomodoroLongBreakOccurance = Properties.Settings.Default.pomodoroLongBreakOccurance;
+            MainViewModel.WorkingSounds = Environment.CurrentDirectory + @"\Assets\Sounds\workingSounds\bgm_" + Properties.Settings.Default.workingSounds + ".mp3";
+            MainViewModel.AlarmSounds = Environment.CurrentDirectory + @"\Assets\Sounds\alarmSounds\alm_" + Properties.Settings.Default.alarmSounds + ".mp3";
+            MainViewModel.Volume = Properties.Settings.Default.volume;
 
-            _viewModel.WorkingSoundsOgg.Volume = Properties.Settings.Default.volume / 100;
-            _viewModel.WorkingSoundsOgg.Volume = Properties.Settings.Default.volume / 100;
+            MainViewModel.WorkingSoundsOgg.Volume = Properties.Settings.Default.volume / 100;
+            MainViewModel.WorkingSoundsOgg.Volume = Properties.Settings.Default.volume / 100;
 
-            //_viewModel.WorkingSoundsOgg = new MP3Player(_viewModel.WorkingSounds, "workingSounds");
-            _viewModel.WorkingSoundsOgg.Open(new Uri(_viewModel.WorkingSounds));
+            //MainViewModel.WorkingSoundsOgg = new MP3Player(MainViewModel.WorkingSounds, "workingSounds");
+            MainViewModel.WorkingSoundsOgg.Open(new Uri(MainViewModel.WorkingSounds));
 
-            if (_viewModel.CurrentPomoStateEnum == PomoStateEnum.Working)
+            if (MainViewModel.CurrentPomoStateEnum == PomoStateEnum.Working)
             {
-                _viewModel.WorkingSoundsOgg.Play();
+                MainViewModel.WorkingSoundsOgg.Play();
             }
 
-            //_viewModel.AlarmSoundsOgg = new MP3Player(_viewModel.AlarmSounds, "alarmSounds");
-            _viewModel.AlarmSoundsOgg.Open(new Uri(_viewModel.WorkingSounds));
+            //MainViewModel.AlarmSoundsOgg = new MP3Player(MainViewModel.AlarmSounds, "alarmSounds");
+            MainViewModel.AlarmSoundsOgg.Open(new Uri(MainViewModel.WorkingSounds));
             Close();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            // Update the volume level here when the slider's value changes
+            MainViewModel.Volume = e.NewValue;
         }
     }
 }
