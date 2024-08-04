@@ -36,6 +36,7 @@ namespace PomodoroTimer.ViewModel
                 Properties.Settings.Default.volume = value;
                 WorkingSoundsOgg.Volume = value / 100;
                 AlarmSoundsOgg.Volume = value / 100;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(Volume)));
             }
         }
 
@@ -113,7 +114,7 @@ namespace PomodoroTimer.ViewModel
 
             WorkingSoundsOgg = new MediaPlayer();
             WorkingSoundsOgg.Open(new Uri(WorkingSounds, UriKind.RelativeOrAbsolute));
-            WorkingSoundsOgg.Volume = Volume;
+            WorkingSoundsOgg.Volume = Volume / 100;
             WorkingSoundsOgg.MediaEnded += (sender, e) =>
             {
                 //播放结束后 又重新播放
@@ -122,7 +123,7 @@ namespace PomodoroTimer.ViewModel
 
             AlarmSoundsOgg = new MediaPlayer();
             AlarmSoundsOgg.Open(new Uri(AlarmSounds, UriKind.RelativeOrAbsolute));
-            AlarmSoundsOgg.Volume = Volume;
+            AlarmSoundsOgg.Volume = Volume / 100;
             Timer = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 1)

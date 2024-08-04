@@ -49,6 +49,14 @@ namespace PomodoroTimer
             {
                 checkedValueWorkingSounds.IsChecked = true;
             }
+
+            Volume = _viewModel.Volume;
+        }
+
+        public double Volume
+        {
+            get => _viewModel.Volume;
+            set => _viewModel.Volume = value;
         }
 
         private void applyButton_Click(object sender, RoutedEventArgs e)
