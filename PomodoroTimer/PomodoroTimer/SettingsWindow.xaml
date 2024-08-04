@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PomodoroTimer.Converters"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
-        Title="Settings Window" Height="470" Width="800" MinWidth="800" MinHeight="470">
+        Title="Settings Window" Height="500" Width="800" MinWidth="800" MinHeight="470">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -15,7 +16,7 @@
             <ColumnDefinition Width="1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="7*"></RowDefinition>
             <RowDefinition Height="6*"></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
@@ -33,6 +34,14 @@
             <ComboBox x:Name="pomodoroLongBreakCombobox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250"/>
             <Label Content="Long Break After" FontFamily="Calibri" FontWeight="Bold" FontSize="14" Foreground="#FF635F5F"></Label>
             <ComboBox x:Name="pomodoroLongBreakOccuranceCombobox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" RenderTransformOrigin="0.137,-1.636"/>
+            <Label Content="Adjust Volume" FontFamily="Calibri" FontWeight="Bold" FontSize="14" Foreground="#FF635F5F"></Label>
+            <StackPanel Orientation="Horizontal">
+                <!-- Set Orientation to Horizontal -->
+                <Slider x:Name="volumeSlider" Maximum="100" Minimum="0" Value="50" Width="230"/>
+                <TextBlock x:Name="volumeValueText" 
+                           Text="{Binding ElementName=volumeSlider, Path=Value, ConverterCulture='en-US', Converter={StaticResource IntegerConverter}}" />
+            </StackPanel>
+
         </UniformGrid>
 
         <Label Content="Alarm" Grid.Row="1" Grid.Column="1" Foreground="#FFFF4F4F" FontSize="16" FontWeight="Bold" FontFamily="Calibri"></Label>
