@@ -9,13 +9,13 @@ namespace PomodoroTimer.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public readonly LinearGradientBrush WorkingGradient = new LinearGradientBrush(
+        public readonly LinearGradientBrush WorkingGradient = new(
             Color.FromArgb(255, 255, 100, 55),
             Color.FromArgb(255, 251, 68, 116),
             new Point(0, 0),
             new Point(0.55, 0.52));
 
-        public readonly LinearGradientBrush BreakGradient = new LinearGradientBrush(
+        public readonly LinearGradientBrush BreakGradient = new(
             Color.FromArgb(255, 23, 232, 217),
             Color.FromArgb(255, 94, 124, 234),
             new Point(0, 0),
@@ -81,19 +81,28 @@ namespace PomodoroTimer.ViewModel
             ShowPauseButton = false;
             ShowRestartButton = false;
             ShowDoneButton = true;
+            AlarmSoundsOgg.Position = TimeSpan.Zero;
             if (CurrentPomoStateEnum == PomoStateEnum.Working)
             {
                 PomodoroCount++;
                 WorkingSoundsOgg.Pause();
                 AlarmSoundsOgg.Play();
-
                 CurrentPomoStateEnum = PomoStateEnum.WorkDone;
 
+                if (ShowMessageBox("You get a Pomodoro, do you want to take a break?") == MessageBoxResult.Yes)
+                {
+                    OnDoneButtonClick(null, null);
+                }
             }
             else
             {
                 AlarmSoundsOgg.Play();
                 CurrentPomoStateEnum = PomoStateEnum.RestDone;
+                if (ShowMessageBox("The break is over, do you want to start the next Pomodoro?") == MessageBoxResult.Yes)
+                {
+                    OnDoneButtonClick(null, null);
+                    OnStartButtonClick(null, null);
+                }
             }
         }
 
@@ -143,7 +152,6 @@ namespace PomodoroTimer.ViewModel
 
         public void OnStartButtonClick(object sender, RoutedEventArgs e)
         {
-            //
             if (CurrentPomoStateEnum == PomoStateEnum.Init)
             {
                 Time = PomodoroDuration;
@@ -218,6 +226,11 @@ namespace PomodoroTimer.ViewModel
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(Time);
             return timeSpan.ToString(@"hh\:mm\:ss");
+        }
+
+        private MessageBoxResult ShowMessageBox(string messsage)
+        {
+            return MessageBox.Show(messsage, "Pomodoro Timer", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No, MessageBoxOptions.ServiceNotification);
         }
     }
 }
