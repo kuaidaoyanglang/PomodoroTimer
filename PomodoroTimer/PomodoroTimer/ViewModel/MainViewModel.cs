@@ -89,7 +89,7 @@ namespace PomodoroTimer.ViewModel
                 AlarmSoundsOgg.Play();
                 CurrentPomoStateEnum = PomoStateEnum.WorkDone;
 
-                if (ShowMessageBox("You get a Pomodoro, do you want to take a break?") == MessageBoxResult.Yes)
+                if (ShowMessageBox("You got a Pomodoro, do you want to take a break?") == MessageBoxResult.Yes)
                 {
                     OnDoneButtonClick(null, null);
                 }
